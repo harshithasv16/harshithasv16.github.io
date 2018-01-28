@@ -1,3 +1,11 @@
+/*var config = {
+    apiKey: "AIzaSyB6OpeVYIvYQD8ryWmfZeswasxshLUZKwE",
+    authDomain: "todo-listjs.firebaseapp.com",
+    databaseURL: "https://todo-listjs.firebaseio.com",
+    projectId: "todo-listjs",
+    storageBucket: "todo-listjs.appspot.com",
+    messagingSenderId: "275339973726"
+};*/
     var config = {
     apiKey: "AIzaSyANa1FgbLi9UIEPAkMy4_zb2S5iPT25vSU",
     authDomain: "todo-listjs-431b6.firebaseapp.com",
@@ -6,7 +14,8 @@
     storageBucket: "todo-listjs.appspot.com",
     messagingSenderId: "334164896833"
   };
-  firebase.initializeApp(config);
+
+firebase.initializeApp(config);
 
 
 
@@ -32,8 +41,8 @@ function gotTodos(incompletedTodos) {
         }
     }
     const heightOfIncompletedList = $('#incompleted-task-list').height();
-    if(heightOfIncompletedList > 350) {
-        $('#incompletd-task-list').addClass('isOverflowing');
+    if (heightOfIncompletedList > 350) {
+        $('#incompleted-task-list').addClass('isOverflowing');
     }
 }
 
@@ -55,9 +64,9 @@ function gotTodosCompleted(completedTodos) {
 
     }
     const heightOfCompletedList = $('#completed-task-list').height();
-  if(heightOfCompletedList >450) {
-      $('#completed-task-list').addClass('isOverflowing');
-  }
+    if (heightOfCompletedList > 450) {
+        $('#completed-task-list').addClass('isOverflowing');
+    }
 }
 
 function error(err) {
@@ -133,12 +142,12 @@ function saveTodos(todo, dateTobeCompleted) {
 function isTodoCompletedFunc(listItem, value) {
     if (listItem.childNodes[2].checked) {
         const listItemKey = listItem.id;
-        completedToDos(listItem, llistItem.id);
+        completedToDos(listItem, listItem.id);
         $(listItem).addClass('remove-animatedly')
             .one('webkitAnimationEnd oanimationend msAnimationEnd animationend ', function() {
-                  todoRef.child(listItemKey).remove();
-        });
-       
+                todosRef.child(listItemKey).remove();
+            });
+
     }
 }
 
@@ -162,9 +171,9 @@ function onDeleteTodo(event) {
     const deleteElement = spanListItem.parentNode;
     $(deleteElement).addClass('remove-animatedly')
         .one('webkitAnimationEnd oanimationend msAnimationEnd animationend ', function() {
-    todosRef.child(deleteElement.id).remove();
-});
-  
+            todosRef.child(deleteElement.id).remove();
+        });
+
 }
 
 function onUpdateTodo() {
@@ -255,7 +264,7 @@ function dateConversion(dateToConvert) {
 
 function onSevenDaysClicked() {
     const sevenDays = document.getElementsByClassName('plus-seven-days');
-  
+
     navigateToDivision(sevenDays);
 }
 
@@ -299,29 +308,29 @@ function displayTaskModal() {
 }
 
 function onAddModalTodo() {
-  var modal = document.getElementById('myModal');
-  const inboxInput = document.getElementById('modalTaskTodos');
-  const inboxInputDate = document.getElmentById('modal-schedul');
-  const errormsg = document.getElementById('error-msg-modal');
-  errorMsg.style.color = "red";
-  if(inboxInput.value ==="") {
-      errorMsg.innerHTML = `<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Todo cannot be empty.`;
-      return;
-  }
-  if (inboxInputData.value === "") {
-      errorMsg.innerHTML = `<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>schedule a dat for the Todo.It brings more effectiveness.`;
-      return;
-  }
-  saveTodos(inboxInput.value, inboxInputDate.value);
-  errorMsg.innerHTML ="";
-  inboxInput.value = "";
-  inboxINputDate.value ="";
-  $(modal).addClass('remove-animatedly').one('webkitAnimationEnd oanimationend msAnimationEnd animationend');
+    var modal = document.getElementById('myModal');
+    const inboxInput = document.getElementById('modalTaskTodos');
+    const inboxInputDate = document.getElementById('modal-schedule');
+    const errorMsg = document.getElementById('error-msg-modal');
+    errorMsg.style.color = "red";
+    if (inboxInput.value === "") {
+        errorMsg.innerHTML = `<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Todo cannot be empty.`;
+        return;
+    }
+    if (inboxInputDate.value === "") {
+        errorMsg.innerHTML = `<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Schedule a date for the Todo.It brings more effectivenss.`;
+        return;
+    }
+    saveTodos(inboxInput.value, inboxInputDate.value);
+    errorMsg.innerHTML = "";
+    inboxInput.value = "";
+    inboxInputDate.value = "";
+    $(modal).addClass('remove-animatedly').one('webkitAnimationEnd oanimationend msAnimationEnd animationend');
 }
 
 function onCancelModalTodo() {
     var modal = document.getElementById('myModal');
-    $(modal).addClass('remove-animatedly').one('webkitAnimationEnd oanimationedend msAnimationEndanimationend', function() {
+    $(modal).addClass('remove-animatedly').one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function() {
         modal.style.display = "none";
     });
 }
