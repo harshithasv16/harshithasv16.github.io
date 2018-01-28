@@ -506,7 +506,6 @@
         display: grid;
         grid-template-columns: 1fr 60fr;
         margin-left: 1%;
-        margin-top: 2%;
     }
     
     .addtask-label-todos {
@@ -614,11 +613,18 @@
         margin-left: 5%;
     }
     
-    .footer {
+    footer {
         height: 50px;
         margin-bottom: -5%;
         background-color: #888;
+        text-align: center;
     }
+
+    footer p {
+      margin-top: 1%;
+      font-size: 15px;
+      font-weight: bold;
+}
 
     .filters {
         position: relative;
