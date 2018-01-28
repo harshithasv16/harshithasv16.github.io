@@ -26,6 +26,7 @@
 </head>
 
 <body>
+  <div class="main-content">
     <div class="logo">
         <div class="todos">
             <img src="public/todos3.png" class="logo">
@@ -35,7 +36,7 @@
                 <i class="fa fa-tasks fa-2x" style="color:rgb(124, 37, 146)" aria-hidden="true"></i>
             </div>
             <div class="quickadd">
-                <i class="fa fa-plus fa-2x" style="color:green" aria-hidden="true"></i>
+                <i class="fa fa-plus fa-2x" onclick="displayTaskModal()" style="color:green" aria-hidden="true"></i>
             </div>
             <div class="notificationbell">
                 <i class="fa fa-bell fa-2x" style="color:blue" aria-hidden="true"></i>
@@ -48,8 +49,7 @@
             </div>
         </div>
 
-    </div>
-    <div class="grid">
+      </div>
         <div class="content">
             <div class="menu-items">
                 <div class="menu-list">
@@ -67,7 +67,6 @@
                         <i class="fa fa-tasks fa-2x" style="color:green; cursor:default" aria-hidden="true"></i>
                         <span>Completed Tasks</span>
                     </div>
-                </div>
                 <div class="project-filters" style="cursor:default ">
                     <ul class="project-filter">
                         <li class="project">Projects</li>
@@ -155,10 +154,11 @@
                         </div>
                     </div>
                 </div>
-
-            </div>
+             </div>
+                
+                
             <div>
-                <hr class="vertical-line" width="1" size="200">
+                <div class="vertical-line">
             </div>
             <div class="navigation-divisions">
                 <div class="todo-main">
@@ -258,22 +258,30 @@
                 </div>
             </div>
         </div>
-    </div>
-   /* <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-    <script>
-      // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyA68tgFbKLQ7IjxAF7eJwObk0E_4jNgZNQ",
-        authDomain: "learnitgirl-todoapp.firebaseapp.com",
-        databaseURL: "https://learnitgirl-todoapp.firebaseio.com",
-        projectId: "learnitgirl-todoapp",
-        storageBucket: "learnitgirl-todoapp.appspot.com",
-        messagingSenderId: "970590889506"
-      };
-      firebase.initializeApp(config);
-    </script>*/
-
-    <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+    <footer class="footer">
+        <p>&copy LearnItGirl</p>
+                </footer>
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <p class="modal-header">Quick Add Task<span class="close" onclick="onCancelModalTodo()">&times;</span></p>
+                        <div class="modal-input">
+                            <div class="input-task">
+                                <div class="container-2">
+                                    <span class="icon"><i class="fa fa-calender fa-2x" aria-hidden="true"></i></span>
+                                    <input type="text" id="modalTaskTodos" placeholder="ADD Task"/>
+                                    <input type="date" id="modal-schedule"/>
+                                </div>
+                                <p id="error-msg-modal"></p>
+                            </div>
+                            <div class="buttons">
+                                <button type="button" onclick="onAddModalTodo()" class="btn btn-primary modal-add-task">Add Yask</button>
+                                <button type="button" onclick="onCancelModalTodo()" class="btn btn-danger cancel-adding-button">cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
 
     <script src="app.js"></script>
 </body>
