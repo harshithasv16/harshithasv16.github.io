@@ -1,7 +1,4 @@
-//<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-//<script>
-  // Initialize Firebase
-  var config = {
+    var config = {
     apiKey: "AIzaSyANa1FgbLi9UIEPAkMy4_zb2S5iPT25vSU",
     authDomain: "todo-listjs-431b6.firebaseapp.com",
     databaseURL: "https://todo-listjs-431b6.firebaseio.com",
@@ -10,16 +7,17 @@
     messagingSenderId: "334164896833"
   };
   firebase.initializeApp(config);
-//</script>
+
+
 
 const todosRef = firebase.database().ref('todos'); //Todos ref for firebase
 const completedTodosRef = firebase.database().ref('completedTodos'); // Completed todos ref for firebase
 
-todosRef.on('value', gotData, error);
+todosRef.on('value', gotTodos, error);
 completedTodosRef.on('value', gotTodosCompleted, error);
 
-function gotData(data) {
-    const todos = data.val();
+function gotTodos(incompletedTodos) {
+    const todos = incompletedTodos.val();
     const classList = document.getElementById('incompleted-task-list');
     classList.innerHTML = '';
     if (todos != null) {
@@ -32,6 +30,10 @@ function gotData(data) {
             let listItem = createNewTaskElement(keys[i], isTodoCompleted, task, dateToBeCompleted);
             classList.appendChild(listItem);
         }
+    }
+    const heightOfIncompletedList = $('#incompleted-task-list').height();
+    if(heightOfIncompletedList > 350) {
+        $('#incompletd-task-list').addClass('isOverflowing');
     }
 }
 
@@ -52,6 +54,10 @@ function gotTodosCompleted(completedTodos) {
         }
 
     }
+    const heightOfCompletedList = $('#completed-task-list').height();
+  if(heightOfCompletedList >450) {
+      $('#completed-task-list').addClass('isOverflowing');
+  }
 }
 
 function error(err) {
@@ -127,10 +133,15 @@ function saveTodos(todo, dateTobeCompleted) {
 function isTodoCompletedFunc(listItem, value) {
     if (listItem.childNodes[2].checked) {
         const listItemKey = listItem.id;
-        const putInCompletedList = completedToDos(listItem, listItem.id);
-        todosRef.child(listItemKey).remove();
+        completedToDos(listItem, llistItem.id);
+        $(listItem).addClass('remove-animatedly')
+            .one('webkitAnimationEnd oanimationend msAnimationEnd animationend ', function() {
+                  todoRef.child(listItemKey).remove();
+        });
+       
     }
 }
+
 
 function editTodo(event) {
     const todosInput = document.getElementsByClassName('todos-input');
@@ -149,8 +160,11 @@ function editTodo(event) {
 function onDeleteTodo(event) {
     const spanListItem = event.target.parentNode;
     const deleteElement = spanListItem.parentNode;
-    $(deleteElement).remove();
+    $(deleteElement).addClass('remove-animatedly')
+        .one('webkitAnimationEnd oanimationend msAnimationEnd animationend ', function() {
     todosRef.child(deleteElement.id).remove();
+});
+  
 }
 
 function onUpdateTodo() {
@@ -241,6 +255,7 @@ function dateConversion(dateToConvert) {
 
 function onSevenDaysClicked() {
     const sevenDays = document.getElementsByClassName('plus-seven-days');
+  
     navigateToDivision(sevenDays);
 }
 
@@ -272,16 +287,57 @@ function onCancelUpdate() {
     inboxInput[0].style.display = 'none';
 }
 
+function displayTaskModal() {
+    var modal = document.getElementById('myModal');
+    $(modal).removeClass('remove-animatedly');
+    modal.style.display = "block";
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+function onAddModalTodo() {
+  var modal = document.getElementById('myModal');
+  const inboxInput = document.getElementById('modalTaskTodos');
+  const inboxInputDate = document.getElmentById('modal-schedul');
+  const errormsg = document.getElementById('error-msg-modal');
+  errorMsg.style.color = "red";
+  if(inboxInput.value ==="") {
+      errorMsg.innerHTML = `<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Todo cannot be empty.`;
+      return;
+  }
+  if (inboxInputData.value === "") {
+      errorMsg.innerHTML = `<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>schedule a dat for the Todo.It brings more effectiveness.`;
+      return;
+  }
+  saveTodos(inboxInput.value, inboxInputDate.value);
+  errorMsg.innerHTML ="";
+  inboxInput.value = "";
+  inboxINputDate.value ="";
+  $(modal).addClass('remove-animatedly').one('webkitAnimationEnd oanimationend msAnimationEnd animationend');
+}
+
+function onCancelModalTodo() {
+    var modal = document.getElementById('myModal');
+    $(modal).addClass('remove-animatedly').one('webkitAnimationEnd oanimationedend msAnimationEndanimationend', function() {
+        modal.style.display = "none";
+    });
+}
+
 $('.dateIcon').click(function(event) {
     event.preventDefault();
     $('#schedule-todos').click();
 });
+
 
 $(document).ready(function() {
     $("add-task-button").click(function() {
         $(".add-task-button").css("outline", "none");
     });
 });
+
 $(document).ready(function() {
     $(".cancel-button").click(function() {
         $(".today-input").hide();
